@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piaoniu.backstage.dao.AdShowDao">
+
+    <select id="selectshow" resultType="com.piaoniu.backstage.pojo.Show">
+        select pn_show.show_name,pn_show_type.show_type,pn_show.show_begin_time,
+        pn_show.show_end_time,pn_city.city_name,pn_show_place.show_place,pn_show.show_people,
+        pn_show.show_picture,pn_show.show_money,pn_show.show_message,pn_show.show_attention,
+        pn_show.show_discount,pn_show.show_comment_grade,pn_show.show_comment_num from
+        pn_show LEFT JOIN pn_show_type on pn_show.show_type_id=pn_show_type.show_type_id
+        LEFT JOIN pn_city on pn_show.city_id = pn_city.city_id LEFT JOIN pn_show_place
+        on pn_show.show_place_id=pn_show_place.show_place_id
+    </select>
+
+
+    <insert id="insertshow" parameterType="com.piaoniu.backstage.pojo.Show">
+        INSERT into pn_show (show_name,show_type_id,show_people,show_begin_time,show_end_time,
+        city_id,show_place_id,show_picture,show_money,show_status_id,show_message,show_discount)
+        VALUES(#{show_name},#{show_type_id},#{show_people},#{show_begin_time},#{show_end_time},
+        #{city_id},#{show_place_id},#{show_picture},#{show_money},#{show_status_id},#{show_message},
+        #{show_discount})
+    </insert>
+
+    <update id="updateshow">
+        UPDATE pn_show set
+        <if test="show_name!=null">
+            show_name=#{show_name},
+        </if>
+        <if test="show_type_id!=0">
+            show_type_id=#{show_type_id},
+        </if>
+        <if test="show_people!=null">
+            show_people=#{show_people},
+        </if>
+        <if test="show_begin_time!=null">
+            show_begin_time=#{show_begin_time},
+        </if>
+        <if test="show_end_time!=null">
+            show_end_time=#{show_end_time},
+        </if>
+        <if test="city_id!=0">
+            city_id=#{city_id},
+        </if>
+        <if test="show_status_id!=0">
+            show_status_id=#{show_status_id},
+        </if>
+        <if test="show_place_id!=0">
+            show_place_id=#{show_place_id},
+        </if>
+        <if test="show_picture!=null">
+            show_picture=#{show_picture},
+        </if>
+        <if test="show_money!=0">
+            show_money=#{show_money},
+        </if>
+        <if test="show_message!=null">
+            show_message=#{show_message},
+        </if>
+        <if test="show_discount!=null">
+            show_discount=#{show_discount}
+        </if>
+        WHERE show_id =#{show_id}
+    </update>
+
+    <delete id="delshow">
+		delete from pn_show where show_id=#{show_id}
+	</delete>
+</mapper>
